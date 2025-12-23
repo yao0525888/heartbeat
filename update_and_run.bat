@@ -55,9 +55,8 @@ set "RUN_COUNT=0"
 for /r "C:\NetWatch" %%F in (run.bat) do (
     if exist "%%F" (
         echo 启动: %%F
-        pushd "%%~dpF"
-        start "" "run.bat"
-        popd
+        :: 使用完整路径直接启动，避免pushd/popd
+        cd /d "%%~dpF" && start /min "" cmd /c "%%F"
         set /a "RUN_COUNT+=1"
     )
 )
