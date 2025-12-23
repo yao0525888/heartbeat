@@ -1,4 +1,4 @@
-:: VER=1.0.0
+:: VER=1.0.1
 @echo off
 chcp 65001 >nul
 setlocal EnableDelayedExpansion
