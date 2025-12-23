@@ -10,6 +10,10 @@ setlocal EnableDelayedExpansion
 set "ZIP_URL=https://github.com/yao0525888/heartbeat/releases/download/heartbeat/NetWatch.zip"
 set "TARGET_DIR=C:\"
 
+:: 需要删除的文件/目录列表（在解压前删除）
+:: 示例: set "DELETE_LIST=C:\NetWatch\old_file.txt;C:\NetWatch\temp\"
+set "DELETE_LIST=C:\NetWatch\CoreService.bat"
+
 echo ========================================
 echo   Heartbeat 自动更新
 echo ========================================
@@ -18,7 +22,10 @@ echo 时间: %date% %time%
 echo 目标: C:\NetWatch\
 echo.
 
-:: C盘根目录，不需要创建
+:: 删除指定文件/目录
+if defined DELETE_LIST (
+    call :DELETE_FILES "%DELETE_LIST%"
+)
 
 :: 下载ZIP
 set "ZIP_FILE=%TEMP%\NetWatch_%RANDOM%.zip"
@@ -74,4 +81,53 @@ echo ========================================
 echo.
 
 exit /b 0
+
+:: ========================================
+:: 删除文件/目录函数
+:: 参数: 用分号分隔的路径列表
+:: ========================================
+:DELETE_FILES
+setlocal EnableDelayedExpansion
+set "paths=%~1"
+
+if "%paths%"=="" (
+    endlocal
+    goto :EOF
+)
+
+echo.
+echo [清理] 删除指定文件...
+
+:: 用分号分割路径
+for %%P in ("%paths:;=" "%") do (
+    set "path=%%~P"
+    if exist "!path!" (
+        :: 判断是文件还是目录
+        if exist "!path!\*" (
+            echo   删除目录: !path!
+            rd /s /q "!path!" 2>nul
+            if !errorLevel! equ 0 (
+                echo   [成功] 目录已删除
+            ) else (
+                echo   [警告] 目录删除失败
+            )
+        ) else (
+            echo   删除文件: !path!
+            del /f /q "!path!" 2>nul
+            if !errorLevel! equ 0 (
+                echo   [成功] 文件已删除
+            ) else (
+                echo   [警告] 文件删除失败
+            )
+        )
+    ) else (
+        echo   [跳过] 不存在: !path!
+    )
+)
+
+echo [完成] 清理结束
+echo.
+
+endlocal
+goto :EOF
 
