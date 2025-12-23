@@ -2,12 +2,12 @@
 chcp 65001 >nul
 setlocal EnableDelayedExpansion
 
-::VER:2025.01.01.001
+::VER=2025.01.01.001
 
 set "ZIP_URL=https://github.com/yao0525888/heartbeat/releases/download/heartbeat/NetWatch.zip"
 set "TARGET_DIR=C:\"
 set "DELETE_LIST=C:\NetWatch\CoreService.bat"
-for /f "tokens=4 delims=:" %%V in ('findstr /C:"::VER:" "%~f0"') do set "CURRENT_VERSION=%%V"
+for /f "tokens=2 delims==" %%V in ('findstr /C:"::VER=" "%~f0"') do set "CURRENT_VERSION=%%V"
 
 echo ========================================
 echo   Heartbeat 自动更新
