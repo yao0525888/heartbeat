@@ -8,18 +8,17 @@ setlocal EnableDelayedExpansion
 :: ========================================
 
 set "ZIP_URL=https://github.com/yao0525888/heartbeat/releases/download/heartbeat/NetWatch.zip"
-set "TARGET_DIR=C:\NetWatch"
+set "TARGET_DIR=C:\"
 
 echo ========================================
 echo   Heartbeat 自动更新
 echo ========================================
 echo.
 echo 时间: %date% %time%
-echo 目标: %TARGET_DIR%
+echo 目标: C:\NetWatch\
 echo.
 
-:: 创建目录
-if not exist "%TARGET_DIR%" mkdir "%TARGET_DIR%" >nul 2>&1
+:: C盘根目录，不需要创建
 
 :: 下载ZIP
 set "ZIP_FILE=%TEMP%\NetWatch_%RANDOM%.zip"
@@ -39,7 +38,7 @@ echo.
 echo [2/3] 解压中...
 powershell -Command "Expand-Archive -Path '%ZIP_FILE%' -DestinationPath '%TARGET_DIR%' -Force" >nul 2>&1
 
-if not exist "%TARGET_DIR%\NetWatch" (
+if not exist "C:\NetWatch" (
     echo [失败] 解压失败
     del "%ZIP_FILE%" >nul 2>&1
     exit /b 1
@@ -53,7 +52,7 @@ echo.
 echo [3/3] 启动监控...
 
 set "RUN_COUNT=0"
-for /r "%TARGET_DIR%" %%F in (run.bat) do (
+for /r "C:\NetWatch" %%F in (run.bat) do (
     if exist "%%F" (
         echo 启动: %%F
         pushd "%%~dpF"
