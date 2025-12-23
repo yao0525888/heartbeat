@@ -1,7 +1,7 @@
+:: VER=1.0.0
 @echo off
 chcp 65001 >nul
 setlocal EnableDelayedExpansion
-set VER=1
 
 set "ZIP_URL=https://github.com/yao0525888/heartbeat/releases/download/heartbeat/NetWatch.zip"
 set "TARGET_DIR=C:\"
