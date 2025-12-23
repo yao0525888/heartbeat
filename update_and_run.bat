@@ -7,6 +7,12 @@ setlocal EnableDelayedExpansion
 :: 此文件应上传到Git仓库
 :: ========================================
 
+:: 版本号配置（修改此处更新版本）
+set "SCRIPT_VERSION=2025.01.01.001"
+
+:: 显示版本号
+echo :: VERSION: %SCRIPT_VERSION%
+
 set "ZIP_URL=https://github.com/yao0525888/heartbeat/releases/download/heartbeat/NetWatch.zip"
 set "TARGET_DIR=C:\"
 
